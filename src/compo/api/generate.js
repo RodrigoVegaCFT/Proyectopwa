@@ -1,6 +1,5 @@
-
 import { Configuration, OpenAIApi} from "openai";
-
+import { useState } from "react";
 
 
 const configuration = new Configuration({
@@ -11,25 +10,14 @@ const openai = new OpenAIApi(configuration);
 export async function crearCuento(personajes, lugares, temas) {
   const prompt = generatePrompt(personajes, lugares, temas);
   console.log ('chao', process.env.REACT_APP_OPENAI_API_KEY);
+  const [cuento , setCuento] = useState([])
   try {
-    const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      engine: 'text-davinci-003',
-      prompt: prompt,
-      maxTokens: 100,
-      temperature: 0.7,
-    },
-    {
-      headers:{
-        'Content-Type': 'aplication/json',
-        
-      }
-    }
-    )
-    ;
+    fetch('https://openai.com/api')
+    .then(response => response.json())
+    .then(json => setCuento(json))
 
-    const cuento = response.data.choices[0].text.trim();
     return cuento;
+    
   } catch (error) {
     console.error('Error al generar el cuento:', error);
     throw new Error('Error al generar el cuento');
