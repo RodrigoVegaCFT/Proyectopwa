@@ -150,13 +150,19 @@ input[type="checkbox"]:checked::after {
   background-image: url("../src/img/giphy-fondo.gif");
   background-size: cover;
   background-repeat: no-repeat;
-  height: 100vh;
+  height: 100%;
 }
 
 .volver {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr, repeat(1fr);
   justify-content: center;
   margin-top: -150px;
+}
+
+.btns{
+  justify-content: center;
+  text-align: center;
 }
 
 .boton-volver {
