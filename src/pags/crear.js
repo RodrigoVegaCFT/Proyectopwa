@@ -18,74 +18,64 @@ import hada from '../img/017-hada.png';
 import carrera from '../img/018-bandera-de-carreras.png';
 import juegos from '../img/019-juego-de-mesa.png';
 import peleas from '../img/020-pelear.png';
-import {crearCuento} from '../compo/api/generate';
-
-
+import { ObtenerCuento } from '../compo/api/generate';
+let cuento = '';
 
 function Crear() {
-    const [personajes, setPersonajes] = useState([]);
-    const [lugares, setLugares] = useState([]);
-    const [temas, setTemas] = useState([]);
-    const [result, setResult] = useState('');
-    const [error1, setError] = useState('');
-    const navigate = useNavigate();
+  const [personajes, setPersonajes] = useState([]);
+  const [lugares, setLugares] = useState([]);
+  const [temas, setTemas] = useState([]);
+  const [errore, setErrore] = useState('');
+  const navigate = useNavigate();
+
+  const handlePersonajesChange = (event) => {
+    const { value, checked } = event.target;
+
+    if (checked) {
+      setPersonajes((prevPersonajes) => [...prevPersonajes, value]);
+    } else {
+      setPersonajes((prevPersonajes) =>
+        prevPersonajes.filter((personaje) => personaje !== value)
+      );
+    }
+  };
+
+  const handleLugaresChange = (event) => {
+    const { value, checked } = event.target;
+
+    if (checked) {
+      setLugares((prevLugares) => [...prevLugares, value]);
+    } else {
+      setLugares((prevLugares) => prevLugares.filter((lugar) => lugar !== value));
+    }
+  };
+
+  const handleTemasChange = (event) => {
+    const { value, checked } = event.target;
+
+    if (checked) {
+      setTemas((prevTemas) => [...prevTemas, value]);
+    } else {
+      setTemas((prevTemas) => prevTemas.filter((tema) => tema !== value));
+    }
+  };
+
+  const handleButtonClick = async () => {
+    if (personajes.length === 0 || lugares.length === 0 || temas.length === 0) {
+      alert('Debes seleccionar al menos un personaje, lugar y tema para poder continuar.');
+      return;
+    }
   
-    const handlePersonajesChange = (event) => {
-        // Actualizar el estado de personajes cuando cambie el checkbox
-        const { value, checked } = event.target;
-    
-        if (checked) {
-          setPersonajes((prevPersonajes) => [...prevPersonajes, value]);
-        } else {
-          setPersonajes((prevPersonajes) =>
-            prevPersonajes.filter((personaje) => personaje !== value)
-          );
-        }
-      };
-    
-      const handleLugaresChange = (event) => {
-        // Actualizar el estado de lugares cuando cambie el checkbox
-        const { value, checked } = event.target;
-    
-        if (checked) {
-          setLugares((prevLugares) => [...prevLugares, value]);
-        } else {
-          setLugares((prevLugares) => prevLugares.filter((lugar) => lugar !== value));
-        }
-      };
-    
-      const handleTemasChange = (event) => {
-        // Actualizar el estado de temas cuando cambie el checkbox
-        const { value, checked } = event.target;
-    
-        if (checked) {
-          setTemas((prevTemas) => [...prevTemas, value]);
-        } else {
-          setTemas((prevTemas) => prevTemas.filter((tema) => tema !== value));
-        }
-      };
-    
-      const handleButtonClick = async () => {
-        if (personajes.length === 0 || lugares.length === 0 || temas.length === 0) {
-          alert('Debes seleccionar al menos un personaje, lugar y tema para poder continuar.');
-          return;
-        }
-    
-        try {
-          const cuento = await crearCuento(personajes, lugares, temas);
-          setResult(cuento);
-          console.log(cuento); // Mostrar cuento por consola
-    
-          navigate('/cuento'); // Navegar a la página de cuento después de generar el cuento
-        } catch (error) {
-          console.error('Error al generar el cuento:', error1);
-          setResult('');
-          setError('Error al generar el cuento');
-        }
-      };
-
-
-
+    try {
+        cuento = await ObtenerCuento();
+      console.log(cuento)
+      navigate('/cuento');
+    } catch (error) {
+      console.error('Error al generar el cuento:', error);
+      setErrore('Error al generar el cuento');
+      console.log(errore);
+    }
+  };
   return (
     <><section className="crear">
           <h1>¿Qué personajes quieres en tu cuento?</h1>
@@ -238,7 +228,7 @@ function Crear() {
               <button className="boton" onClick={handleButtonClick}>Confirmar Elecciones</button>
           </section>
           
-      {result && <div>{result}</div>}
+      
           
           </>
 
@@ -248,4 +238,5 @@ function Crear() {
 
 
 export default Crear;
+export { cuento };
 

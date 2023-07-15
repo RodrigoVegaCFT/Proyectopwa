@@ -21,7 +21,7 @@ function IndexPage() {
 
   return (
     <>
-      <body className="indx">
+      <div className="indx">
         <section className="center">
           <div className="center-section">
             <h1>¡Bienvenido a PekeCuentos!</h1>
@@ -30,7 +30,7 @@ function IndexPage() {
         <div>
           <p id="parpadeo">PRESIONA EN CUALQUIER LUGAR PARA CONTINUAR.</p>
         </div>
-      </body>
+      </div>
     </>
   );
 }
