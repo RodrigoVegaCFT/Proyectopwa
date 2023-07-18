@@ -1,6 +1,6 @@
 export async function ObtenerCuento() {
   try {
-    const response = await fetch("http://localhost:8080/api/story");
+    const response = await fetch("http://192.168.1.17:8081/api/story");
 
     if (response.ok) {
       const cuentoData = await response.text();
